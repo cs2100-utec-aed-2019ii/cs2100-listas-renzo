@@ -2,6 +2,9 @@
 
 template <typename T>
 class Node {
+private:
+	friend class ForwardList;
+	
 protected:
 	T data;
 	Node* Next;
