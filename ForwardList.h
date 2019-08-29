@@ -11,33 +11,59 @@ protected:
 public:
 	ForwardList() : Head{ nullptr } {}
 
-	~ForwardList();
+	~ForwardList() {
+	
+	}
 
-	void push_front();
+	void push_front() {
+	
+	}
 
-	void pop_front();
+	void pop_front() {
+	
+	}
 
-	Node <T>* front();
+	Node <T>* front() {
+	
+	}
 
-	Node <T>* back();
+	Node <T>* back() {
+	
+	}
 
-	void push_back();
+	void push_back() {
+	
+	}
 
-	void pop_back();
+	void pop_back() {
+	
+	}
 
-	T& operator[] (int n);
+	T& operator[] (int n) {
+	
+	}
 
-	bool empty();
+	bool empty() {
+	
+	}
 
-	int size();
+	int size() {
+	
+	}
 
-	void clear();
+	void clear() {
+	
+	}
 
-	ForwardList<T>& sort();
+	ForwardList<T>& sort() {
+	
+	}
 
-	ForwardList<T>& reverse();
+	ForwardList<T>& reverse() {
+	
+	}
 
-	ostream& operator+(ForwardList<T>& fl, ostream& out) {
+	ostream& operator<<(ForwardList& fl, ostream& out) {
 
 	}
 
