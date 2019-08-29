@@ -11,7 +11,9 @@ protected:
 public:
 	ForwardList() : Head{ nullptr } {}
 
-	~ForwardList() = default;
+	~ForwardList() {
+
+	}
 
 	void push_front(const T& element) {
 		if (Head == nullptr) {
@@ -27,15 +29,14 @@ public:
 		}
 	}
 
-	void pop_front() {
+	Node<T>* pop_front() {
 		if (Head == nullptr) {
 			cout << "Error : No Elements in Forward List" << endl;
 		}
 		else {
 			Node<T>* toDeleteNode = Head;
 			Head = Head->Next;
-			delete toDeleteNode;
-			toDeleteNode = nullptr;
+			return toDeleteNode;
 		}
 	}
 
@@ -62,7 +63,7 @@ public:
 		}
 	}
 
-	void pop_back() {
+	Node<T>* pop_back() {
 		if (Head == nullptr) {
 			cout << "Error : No Existen Elementos" << endl;
 		}
@@ -75,8 +76,7 @@ public:
 			}
 			Node<T>* toDeleteNode = temp->Next;
 			temp->Next = nullptr;
-			delete toDeleteNode;
-			toDeleteNode = nullptr;
+			return toDeleteNode;
 		}
 	}
 
@@ -103,7 +103,9 @@ public:
 
 	ForwardList& reverse();
 
-	//ostream& operator<<(ForwardList& fl, ostream& out) {}
+	ostream& operator<<(ForwardList& f1) {
+
+	}
 
 	void print() {
 		Node<T>* temp = Head;
