@@ -5,8 +5,8 @@ class Node {
 private:
 	template <typename B>
 	friend class ForwardList;
-	
-protected:
+
+private:
 	T data;
 	Node* Next;
 
