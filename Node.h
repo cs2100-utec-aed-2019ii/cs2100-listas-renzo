@@ -3,6 +3,7 @@
 template <typename T>
 class Node {
 private:
+	template <typename B>
 	friend class ForwardList;
 	
 protected:
