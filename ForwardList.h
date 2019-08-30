@@ -181,16 +181,18 @@ public:
 		Merge(*this, 0, size()-1);
 		return *this;
 	}
-
+	
+	void reverse(ForwardList& nueva, Node<T>* nodo){
+	   	if(nodo->next != nullptr){
+			reverse(nueva, nodo->next);
+	      	}
+	      nueva.push_back(nodo->data);
+	}
+	
 	ForwardList& reverse() {
-		vector <T> tempV;
-		for (int i = 0; i < size(); i++) {
-			tempV.push_back((*this)[i]);
-		}
-		for (int i = 0; i < size(); i++) {
-			(*this)[i] = tempV[tempV.size()-1-i];
-		}
-		return *this;
+		ForwardList nueva();
+      		reverse(nueva, head);
+      		return nueva;
 	}
 	
 	void print(ostream& out) {
