@@ -2,15 +2,12 @@
 
 template <typename T>
 class Node {
-private:
-	template <typename B>
-	friend class ForwardList;
-
-private:
-	T data;
-	Node* Next;
+protected:
+	T value;
 
 public:
-	Node() : Next{ nullptr } {}
-	T& operator *() { return data; }
+	Node() = default;
+	Node(T _value) : value{_value} {}
+	~Node(void) {}
+	T& operator *() { return value; }
 };

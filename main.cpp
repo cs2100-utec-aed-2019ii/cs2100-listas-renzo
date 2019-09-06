@@ -20,4 +20,16 @@ int main() {
 	cout << fl[1] << endl;
 	fl.reverse();
 	cout << fl;
+	fl << 5;
+	fl << 10;
+	fl << 20;
+	cout << fl;
+	fl.erase(2);
+	cout << fl;
+	fl.insert(1, 100);
+	cout << fl;
+	fl.drop(20);
+	cout << fl;
+
+	return 0;
 }

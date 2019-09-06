@@ -1,130 +1,166 @@
 #pragma once
-#include "Node.h"
 #include <iostream>
 #include <vector>
+#include "List.h"
+#include "ForwardListNode.h"
 using namespace std;
 
 template <typename T>
-class ForwardList {
+class ForwardList : public List<T> {
 protected:
-	Node <T>* Head;
+	ForwardListNode<T>* head;
+	ForwardListNode<T>* tail;
 
 public:
-	ForwardList() : Head{ nullptr } {}
-	
+	ForwardList() : head{ nullptr }, tail{ nullptr } {};
 	ForwardList(int n) {
 		for (int i = 0; i < n; i++) {
 			push_back(i);
 		}
 	}
-
 	~ForwardList() {
 		clear();
 	}
 
-	void push_front(const T& element) {
-		if (Head == nullptr) {
-			Node<T>* newNode = new Node <T>;
-			newNode->data = element;
-			Head = newNode;
-		}
-		else {
-			Node<T>* newNode = new Node<T>;
-			newNode->data = element;
-			newNode->Next = Head;
-			Head = newNode;
-		}
-	}
-
-	Node<T>* pop_front() {
-		if (Head == nullptr) {
-			cout << "Error : No Elements in Forward List" << endl;
-		}
-		else {
-			Node<T>* toDeleteNode = Head;
-			Head = Head->Next;
-			return toDeleteNode;
-		}
-	}
-
-	Node <T>* front() { return Head; }
-
-	Node <T>* back() {
-		Node<T>* temp = Head;
-		while (temp->Next != nullptr) {
-			temp = temp->Next;
-		}
-		return temp;
-	}
-
-	void push_back(const T& element) {
-		if (Head == nullptr) {
-			Node<T>* newNode = new Node <T>;
-			newNode->data = element;
-			Head = newNode;
-		}
-		else {
-			int size = ForwardList::size();
-			Node<T>* temp = Head;
-
-			while (temp->Next != nullptr) {
-				temp = temp->Next;
-			}
-			Node<T>* newNode = new Node<T>;
-			newNode->data = element;
-			temp->Next = newNode;
-		}
-	}
-
-	Node<T>* pop_back() {
-		if (Head == nullptr) {
-			cout << "Error : No Existen Elementos" << endl;
-		}
-		else {
-			int size = ForwardList::size();
-			Node<T>* temp = Head;
-
-			while (temp->Next->Next != nullptr) {
-				temp = temp->Next;
-			}
-			Node<T>* toDeleteNode = temp->Next;
-			temp->Next = nullptr;
-			return toDeleteNode;
-		}
-	}
-
-	T& operator[] (int n) {
-		Node<T>* temp = Head;
-		for (int i = 0; i < n; i++) {
-			if (n > size() - 1) { cout << "Error: Fuera de Lugar" << endl; break; }
-			temp = temp->Next;
+	T& front() override { return *(*head); }
+	T& back() override {
+		ForwardListNode<T>* temp = head;
+		while (temp->next != nullptr) {
+			temp = temp->next;
 		}
 		return *(*temp);
 	}
 
-	bool empty() {
-		if (Head != nullptr) { return false; }
-		else { return true; }
+	void push_back(const T& element) override {
+		if (head == nullptr) {
+			ForwardListNode<T>* newNode = new ForwardListNode <T>;
+			newNode->value = element;
+			head = newNode;
+		}
+		else {
+			int size = ForwardList::size();
+			ForwardListNode<T>* temp = head;
+
+			while (temp->next != nullptr) {
+				temp = temp->next;
+			}
+			ForwardListNode<T>* newNode = new ForwardListNode<T>;
+			newNode->value = element;
+			temp->next = newNode;
+		}
+	}
+	void push_front(const T& element) override {
+		if (head == nullptr) {
+			ForwardListNode<T>* newNode = new ForwardListNode <T>;
+			newNode->value = element;
+			head = newNode;
+		}
+		else {
+			ForwardListNode<T>* newNode = new ForwardListNode<T>;
+			newNode->value = element;
+			newNode->next = head;
+			head = newNode;
+		}
 	}
 
-	int size() {
+	ForwardListNode<T>* pop_back() override {
+		if (head == nullptr) {
+			cout << "Error : No Existen Elementos" << endl;
+			return head;
+		}
+		else {
+			int size = ForwardList::size();
+			ForwardListNode<T>* temp = head;
+
+			while (temp->next->next != nullptr) {
+				temp = temp->next;
+			}
+			ForwardListNode<T>* toDeleteNode = temp->next;
+			temp->next = nullptr;
+			return toDeleteNode;
+		}
+	}
+	ForwardListNode<T>* pop_front() override {
+		if (head == nullptr) {
+			cout << "Error : No Elements in Forward List" << endl;
+			return head;
+		}
+		else {
+			ForwardListNode<T>* toDeleteNode = head;
+			head = head->next;
+			return toDeleteNode;
+		}
+	}
+
+	T& operator[] (const unsigned int& n) override {
+		ForwardListNode<T>* temp = head;
+		for (unsigned int i = 0; i < n; i++) {
+			if (n > size() - 1) { cout << "Error: Fuera de Lugar" << endl; break; }
+			temp = temp->next;
+		}
+		return *(*temp);
+	}
+
+	bool empty() override {
+		if (head != nullptr) { return false; }
+		else { return true; }
+	}
+	unsigned int size() override {
 		int size = 0;
-		Node<T>* temp = Head;
+		ForwardListNode<T>* temp = head;
 		while (temp != nullptr) {
-			temp = temp->Next;
+			temp = temp->next;
 			size++;
 		}
 		return size;
 	}
-
-	void clear() {
-		for (int i = 0; i < size() - 1; i++) {
+	void clear() override {
+		for (unsigned int i = 0; i < size() - 1; i++) {
 			pop_back();
 		}
-		delete Head;
-		Head = nullptr;
+		delete head;
+		head = nullptr;
 	}
 
+	void erase(const int& index) override {
+		ForwardListNode<T>* temp = head;
+		for (int i = 0; i < index - 1; i++) {
+			temp = temp->next;
+		}
+		if (temp->next == tail) {
+			ForwardListNode<T>* toDelete = temp->next;
+			temp->next = nullptr;
+			delete toDelete;
+			toDelete = nullptr;
+		}
+		else {
+			ForwardListNode<T>* toDelete = temp->next;
+			temp->next = toDelete->next;
+			delete toDelete;
+			toDelete = nullptr;
+		}
+	}
+	void insert(const int& index, const T& value) override {
+		ForwardListNode<T>* temp = head;
+		for (int i = 0; i < index - 1; i++) {
+			temp = temp->next;
+		}
+		ForwardListNode<T>* toInsert = new ForwardListNode<T>;
+		toInsert->value = value;
+		toInsert->next = temp->next;
+		temp->next = toInsert;
+	}
+	void drop(const T& value) override {
+		ForwardListNode<T>* temp = head;
+		int i = 0;
+		T val = value;
+		while (temp != nullptr) {
+			//if (*(*temp) == val) { ForwardList::erase(i); }
+			i++;
+			temp = temp->next;		
+		}
+	}
+	
 	void Combine(ForwardList<T>& v, int leftIndex, int middle, int rightIndex) {
 		int Len_1 = middle - leftIndex + 1;
 		int Len_2 = rightIndex - middle;
@@ -141,7 +177,7 @@ public:
 		int cont_1 = 0;
 		int cont_2 = 0;
 		int cont_3 = leftIndex;
-		
+
 		while (cont_1 < Len_1 && cont_2 < Len_2) {
 			if (tempV_1[cont_1] < tempV_2[cont_2]) {
 				v[cont_3] = tempV_1[cont_1];
@@ -164,7 +200,7 @@ public:
 			cont_2++;
 			cont_3++;
 		}
-		
+
 	}
 
 	void Merge(ForwardList<T>& v, int leftIndex, int rightIndex) {
@@ -177,37 +213,44 @@ public:
 		}
 	}
 
-	ForwardList& sort() {
-		Merge(*this, 0, size()-1);
+	ForwardList& sort() override {
+		Merge(*this, 0, size() - 1);
+		return *this;
+	}
+	ForwardList& reverse() override {
+		std::vector <T> tempV;
+		for (unsigned int i = 0; i < size(); i++) {
+			tempV.push_back((*this)[i]);
+		}
+		for (unsigned int i = 0; i < size(); i++) {
+			(*this)[i] = tempV[tempV.size() - 1 - i];
+		}
 		return *this;
 	}
 	
-	void reverse(ForwardList& nueva, Node<T>* nodo){
-	   	if(nodo->next != nullptr){
-			reverse(nueva, nodo->next);
-	      	}
-	      nueva.push_back(nodo->data);
-	}
-	
-	ForwardList& reverse() {
-		ForwardList nueva();
-      		reverse(nueva, head);
-      		return nueva;
-	}
-	
-	void print(ostream& out) {
-		Node<T>* temp = Head;
-			out << *(*temp) << ' ';
-		while (temp->Next != nullptr) {
-			temp = temp->Next;
+	void print(std::ostream& out) {
+		ForwardListNode<T>* temp = head;
+		out << *(*temp) << ' ';
+		while (temp->next != nullptr) {
+			temp = temp->next;
 			out << *(*temp) << ' ';
 		}
 		out << endl;
 	}
-
-	friend ostream& operator << (ostream& out, ForwardList& f) {
-		f.print(out);
+	
+	inline friend std::ostream& operator<< (std::ostream& out, ForwardList<T>& fl) {
+		fl.print(out);
 		return out;
+	}
+	
+	inline friend ForwardList& operator<< (ForwardList<T>& fl, const T& value) {
+		fl.push_back(value);
+		return fl;
+	}
+
+	inline friend ForwardList& operator>> (ForwardList<T>& fl, const T& value) {
+		fl.pop_back();
+		return fl;
 	}
 	
 };
