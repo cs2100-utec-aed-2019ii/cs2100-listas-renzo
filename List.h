@@ -12,7 +12,7 @@ protected:
 public:
 	
 	List(List& list_2) {} // Constructor copia
-	List(T* arr) {} //Constructor  parametro, llena una lista a partir de un array
+	List(T* arr, int size) {} //Constructor  parametro, llena una lista a partir de un array
 	List(Node<T>* n) {} //Constructor por parametro, retorna una lista con un nodo
 	List(int n) {} //Constructor por parametro, retorna un lista de randoms de tamaño n
 	List() = default; // Constructor por defecto

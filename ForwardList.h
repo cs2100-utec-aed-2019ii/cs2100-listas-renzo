@@ -18,6 +18,19 @@ public:
 			push_back(i);
 		}
 	}
+	ForwardList(ForwardList& list_2) {
+		for (int i = 0; i < list_2.size(); i++) {
+			push_back(list_2[i]);
+		}
+	} 
+	ForwardList(T* arr, int size) {
+		for (int i = 0; i < size; i++) {
+			push_back((*arr)[i]);
+		}
+	} 
+	ForwardList(ForwardListNode<T>* n) {
+		push_back(n->value);
+	}
 	~ForwardList() {
 		clear();
 	}
