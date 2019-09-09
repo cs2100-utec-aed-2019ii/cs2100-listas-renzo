@@ -80,9 +80,9 @@ public:
 				temp = temp->next;
 			}
 			ForwardListNode<T>* toDeleteNode = temp->next;
-			temp->next = nullptr;
-			delete toDeleteNode;
 			tail = temp;
+			temp->next = nullptr;
+			return toDeleteNode;
 		}
 	}
 	ForwardListNode<T>* pop_front() override {
@@ -125,6 +125,7 @@ public:
 		}
 		delete head;
 		head = nullptr;
+		tail = nullptr;
 	}
 
 	void erase(const int& index) override {
@@ -132,18 +133,17 @@ public:
 		for (int i = 0; i < index - 1; i++) {
 			temp = temp->next;
 		}
-		if (temp->next == tail) {
-			ForwardListNode<T>* toDelete = temp->next;
+		if (temp->next->next == nullptr) {
+			delete temp->next;
 			temp->next = nullptr;
-			delete toDelete;
-			toDelete = nullptr;
 		}
 		else {
-			ForwardListNode<T>* toDelete = temp->next;
-			temp->next = toDelete->next;
-			delete toDelete;
-			toDelete = nullptr;
+			ForwardListNode<T>* toDeleteNode = temp->next;
+			temp->next = temp->next->next;
+			delete toDeleteNode;
+			toDeleteNode = nullptr;
 		}
+			
 	}
 	void insert(const int& index, const T& value) override {
 		ForwardListNode<T>* temp = head;
@@ -157,12 +157,12 @@ public:
 	}
 	void drop(const T& value) override {
 		ForwardListNode<T>* temp = head;
-		int i = 1;
-		if (*(*temp) == value) { erase(i); }
+		int i = 0;
+		if (*(*head) == value) { erase(i); }
 		while (temp->next != nullptr) {
-			temp = temp->next;
-			if (*(*temp) == value) { erase(i); temp = head; }
 			i++;
+			temp = temp->next;
+			if (*(*temp) == value) { erase(i); temp = head; i = 0; }
 		}
 	}
 	
