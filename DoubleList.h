@@ -129,6 +129,7 @@ public:
 	}
 
 	void clear() override {
+		if (head == nullptr) { return; }
 		for (unsigned int i = 0; i < size() - 1; i++) {
 			pop_back();
 		}
