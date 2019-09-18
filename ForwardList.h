@@ -3,8 +3,8 @@
 #include <vector>
 #include "List.h"
 #include "ForwardListNode.h"
+#include "Iterator.h"
 using namespace std;
-
 template <typename T>
 class ForwardList : public List<T> {
 protected:
@@ -12,7 +12,50 @@ protected:
 	ForwardListNode<T>* tail;
 
 public:
-	ForwardList() : head{ nullptr }, tail{ nullptr } {};
+  friend class Iterator;
+
+
+//-----------------------------------
+// CLASE INTERNA ITERATOR FORWARD
+//-----------------------------------
+class Iterator : public abstraction_Iterator<ForwardListNode<T>>{
+public:
+
+  typedef ForwardListNode<T> node_t;
+  typedef T value_t;
+
+	Iterator(node_t* pointer): abstraction_Iterator<ForwardListNode<T>>(pointer) {};
+
+	Iterator& operator ++ (void)  {
+		abstraction_Iterator<node_t>::pointer = abstraction_Iterator<node_t>::pointer->next;
+		return *this;
+	};
+  
+	Iterator operator ++ (int) {
+		Iterator* temp = new Iterator(abstraction_Iterator<node_t>::pointer);
+		abstraction_Iterator<node_t>::pointer = abstraction_Iterator<node_t>::pointer->next;
+		return *temp;
+	}
+
+	void operator = (const Iterator temp){
+      this->abstraction_Iterator<node_t>::pointer = temp.abstraction_Iterator<node_t>::pointer;
+	}
+
+  
+  bool operator == (const Iterator temp) {
+     return this->abstraction_Iterator<node_t>::pointer == temp.abstraction_Iterator<node_t>::pointer;
+	}
+	bool operator != (const Iterator temp) const {
+    return this->abstraction_Iterator<node_t>::pointer != temp.abstraction_Iterator<node_t>::pointer;
+	}
+	
+};
+
+
+	ForwardList() {
+    head = nullptr;
+    tail = nullptr;
+  };
 	ForwardList(int n) {
 		for (int i = 0; i < n; i++) {
 			push_back(i);
@@ -35,10 +78,19 @@ public:
 		clear();
 	}
 
-	T& front() override { return *(*head); }
-	T& back() override { return *(*tail); }
-
-	void push_back(const T& element) override {
+	T& front() { return *(*head); }
+	T& back() { return *(*tail); }
+  
+  Iterator begin() {
+    Iterator temp(head);
+    return temp;
+  }
+  Iterator end() {
+    Iterator temp(tail->next);
+    return temp;
+  }
+  
+	void push_back(const T& element) {
 		if (head == nullptr) {
 			ForwardListNode<T>* newNode = new ForwardListNode <T>;
 			newNode->value = element;
@@ -52,7 +104,7 @@ public:
 			tail = newNode;
 		}
 	}
-	void push_front(const T& element) override {
+	void push_front(const T& element) {
 		if (head == nullptr) {
 			ForwardListNode<T>* newNode = new ForwardListNode <T>;
 			newNode->value = element;
@@ -67,7 +119,7 @@ public:
 		}
 	}
 
-	ForwardListNode<T>* pop_back() override {
+	ForwardListNode<T>* pop_back() {
 		if (head == nullptr) {
 			cout << "Error : No Existen Elementos" << endl;
 			return head;
@@ -85,7 +137,7 @@ public:
 			return toDeleteNode;
 		}
 	}
-	ForwardListNode<T>* pop_front() override {
+	ForwardListNode<T>* pop_front() {
 		if (head == nullptr) {
 			cout << "Error : No Elements in Forward List" << endl;
 			return head;
@@ -97,7 +149,7 @@ public:
 		}
 	}
 
-	T& operator[] (const unsigned int& n) override {
+	T& operator[] (const unsigned int& n) {
 		ForwardListNode<T>* temp = head;
 		for (unsigned int i = 0; i < n; i++) {
 			if (n > size() - 1) { cout << "Error: Fuera de Lugar" << endl; break; }
@@ -106,11 +158,11 @@ public:
 		return *(*temp);
 	}
 
-	bool empty() override {
+	bool empty() {
 		if (head != nullptr) { return false; }
 		else { return true; }
 	}
-	unsigned int size() override {
+	unsigned int size() {
 		int size = 0;
 		ForwardListNode<T>* temp = head;
 		while (temp != nullptr) {
@@ -119,8 +171,8 @@ public:
 		}
 		return size;
 	}
-	void clear() override {
-		if (head == nullptr) { return; }
+	void clear() {
+    if (head == nullptr) {return;}
 		for (unsigned int i = 0; i < size() - 1; i++) {
 			pop_back();
 		}
@@ -129,7 +181,7 @@ public:
 		tail = nullptr;
 	}
 
-	void erase(const int& index) override {
+	void erase(const int& index) {
 		ForwardListNode<T>* temp = head;
 		for (int i = 0; i < index - 1; i++) {
 			temp = temp->next;
@@ -146,7 +198,7 @@ public:
 		}
 			
 	}
-	void insert(const int& index, const T& value) override {
+	void insert(const int& index, const T& value) {
 		ForwardListNode<T>* temp = head;
 		for (int i = 0; i < index - 1; i++) {
 			temp = temp->next;
@@ -156,7 +208,7 @@ public:
 		toInsert->next = temp->next;
 		temp->next = toInsert;
 	}
-	void drop(const T& value) override {
+	void drop(const T& value) {
 		ForwardListNode<T>* temp = head;
 		int i = 0;
 		if (*(*head) == value) { erase(i); }
@@ -219,11 +271,11 @@ public:
 		}
 	}
 
-	ForwardList& sort() override {
+	ForwardList& sort() {
 		Merge(*this, 0, size() - 1);
 		return *this;
 	}
-	ForwardList& reverse() override {
+	ForwardList& reverse() {
 		std::vector <T> tempV;
 		for (unsigned int i = 0; i < size(); i++) {
 			tempV.push_back((*this)[i]);
