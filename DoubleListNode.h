@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TEST_DOUBLELISTNODE_H
+#define TEST_DOUBLELISTNODE_H
+
 #include "Node.h"
 
 template <typename T>
@@ -16,9 +18,11 @@ public:
 		next = nullptr;
 		prev = nullptr;
 	}
-	DoubleListNode(T value) : Node(value) {
+	DoubleListNode(T value) : Node<T>(value) {
 		next = nullptr;
 		prev = nullptr;
 	}
 	~DoubleListNode(void) {}
 };
+
+#endif

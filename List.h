@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TEST_LIST_H
+#define TEST_LIST_H
+
 #include <iostream>
 #include "Node.h"
 #include "ForwardListNode.h"
@@ -14,7 +16,7 @@ public:
 	List(List& list_2) {} // Constructor copia
 	List(T* arr, int size) {} //Constructor  parametro, llena una lista a partir de un array
 	List(Node<T>* n) {} //Constructor por parametro, retorna una lista con un nodo
-	List(int n) {} //Constructor por parametro, retorna un lista de randoms de tamaño n
+	List(int n) {} //Constructor por parametro, retorna un lista de randoms de tamaï¿½o n
 	List() = default; // Constructor por defecto
 	
 	virtual T& front() = 0; // Retorna una referencia al primer elemento
@@ -29,7 +31,7 @@ public:
 	virtual T& operator[] (const unsigned int& n) = 0; // devuelve el valor de un nodo en una posicion determinada
 
 	virtual bool empty() = 0; // la lista esta vacia?
-	virtual unsigned int size() = 0; // retorna el tamaño de la lista
+	virtual unsigned int size() = 0; // retorna el tamaï¿½o de la lista
 	virtual void clear() = 0; // Elimina toda la lista
 
 	virtual void erase(const int& index) = 0; // Elimina un elemento de la lista en base a un puntero
@@ -44,3 +46,5 @@ public:
 	inline friend List& operator>> (List<T>&, T&) = 0; // pop_back de un elemento
 	*/
 };
+
+#endif

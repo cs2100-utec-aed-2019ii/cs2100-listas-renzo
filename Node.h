@@ -1,3 +1,6 @@
+#ifndef TEST_NODE_H
+#define TEST_NODE_H
+
 template <typename T>
 class Node {
 protected:
@@ -11,3 +14,5 @@ public:
 	~Node(void) {}
 	T& operator *() { return value; }
 };
+
+#endif

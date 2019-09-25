@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TEST_FORWARDLIST_H
+#define TEST_FORWARDLIST_H
+
 #include <iostream>
 #include <vector>
 #include "List.h"
@@ -312,3 +314,5 @@ public:
 	}
 	
 };
+
+#endif

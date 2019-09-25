@@ -1,3 +1,6 @@
+#ifndef TEST_FORWARDLISTNODE_H
+#define TEST_FORWARDLISTNODE_H
+
 template <typename T>
 class ForwardListNode : public Node<T> {
 private:
@@ -18,3 +21,5 @@ public:
 	}
 	~ForwardListNode(void) {}
 };
+
+#endif

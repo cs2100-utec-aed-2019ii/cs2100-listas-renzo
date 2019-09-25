@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TEST_DOUBLELIST_H
+#define TEST_DOUBLELIST_H
+
 #include "DoubleListNode.h"
 #include "List.h"
 
@@ -268,3 +270,5 @@ public:
 	}
 	
 };
+
+#endif
